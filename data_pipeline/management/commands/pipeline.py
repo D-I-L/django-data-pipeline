@@ -48,7 +48,7 @@ class Command(BaseCommand):
     Cytobands:
     ./manage.py pipeline --dir tmp --ini download.ini --sections BANDS_CHROM,BANDS_CYTO --steps download load
 
-    Cytobands:
+    HapMap Recombination Rates:
     ./manage.py pipeline --dir [data dir] --ini download.ini --sections HAPMAP_RECOMB --steps load
     '''
     help = "Download data file(s)"
