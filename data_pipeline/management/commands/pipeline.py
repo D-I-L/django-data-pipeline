@@ -45,8 +45,12 @@ class Command(BaseCommand):
 
     ./manage.py pipeline --dir tmp --ini download.ini  --sections IMMUNOCHIP_MYSQL --steps load
 
+    Disease:
+    ./manage.py pipeline --dir path/data_pipeline/data --ini download.ini --sections DISEASE --steps load
+
     Cytobands:
     ./manage.py pipeline --dir tmp --ini download.ini --sections BANDS_CHROM,BANDS_CYTO --steps download load
+
 
     HapMap Recombination Rates:
     ./manage.py pipeline --dir [data dir] --ini download.ini --sections HAPMAP_RECOMB --steps load
