@@ -54,6 +54,9 @@ class Command(BaseCommand):
 
     HapMap Recombination Rates:
     ./manage.py pipeline --dir [data dir] --ini download.ini --sections HAPMAP_RECOMB --steps load
+
+    GWAS/IC Statistics:
+    ./manage.py pipeline --dir path/data_pipeline/data --ini gwas_stats.ini --sections IC_STATS::CRO_LIU --steps load
     '''
     help = "Download data file(s)"
 
