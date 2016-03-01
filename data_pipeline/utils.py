@@ -10,6 +10,7 @@ import time
 
 from django.core.management import call_command
 
+from data_pipeline.helper.assoc_stats import AssocStats
 from data_pipeline.helper.bands import Bands, Chrom
 from data_pipeline.helper.disease import Disease
 from data_pipeline.helper.gene import Gene
@@ -273,6 +274,16 @@ class PostProcess(object):
         Disease.mapping(idx, idx_type)
         with open(download_file, 'rt') as bands_f:
             Disease.idx(bands_f, idx, idx_type)
+
+    ''' gwas/ic stats '''
+    @classmethod
+    def gwas_ic_stats(cls, *args, **kwargs):
+        download_file = cls._get_download_file(*args, **kwargs)
+        idx = kwargs['section']['index']
+        idx_type = kwargs['section']['index_type']
+        AssocStats.mapping(idx, idx_type)
+        with open(download_file, 'rt') as f:
+            AssocStats.idx(f, idx, idx_type)
 
     ''' hapmap recombination method '''
     @classmethod
