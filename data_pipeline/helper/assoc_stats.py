@@ -16,7 +16,7 @@ class AssocStats(object):
     '''
 
     @classmethod
-    def mapping(cls, idx, idx_type):
+    def mapping(cls, idx, idx_type, meta):
         ''' Create the mapping for gwas/ic stats indexing '''
         props = MappingProperties(idx_type)
         props.add_property("seqid", "string")
@@ -33,7 +33,7 @@ class AssocStats(object):
 
         load = Loader()
         options = {"indexName": idx, "shards": 5}
-        load.mapping(props, idx_type, **options)
+        load.mapping(props, idx_type, meta=meta, **options)
 
     @classmethod
     def idx(cls, f, idx, idx_type):

@@ -281,7 +281,10 @@ class PostProcess(object):
         download_file = cls._get_download_file(*args, **kwargs)
         idx = kwargs['section']['index']
         idx_type = kwargs['section']['index_type']
-        AssocStats.mapping(idx, idx_type)
+        disease = kwargs['section']['disease']
+        study_id = kwargs['section']['study_id']
+        meta = {"disease": disease, "study": study_id}
+        AssocStats.mapping(idx, idx_type, meta)
         with open(download_file, 'rt') as f:
             AssocStats.idx(f, idx, idx_type)
 
