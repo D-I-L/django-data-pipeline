@@ -54,13 +54,19 @@ class AssocStats(object):
                 "marker": parts[2],
                 "p_value": float(parts[3]),
                 "odds_ratio": float(parts[4]),
-                "lower_or": float(parts[5]),
-                "upper_or": float(parts[6]),
-                "raf": float(parts[7]),
                 "risk_allele": parts[8],
-                "alt_allele": parts[9],
-                "imputed": int(parts[10])
+                "alt_allele": parts[9]
             }
+
+            if isfloat(parts[5]) and float(parts[5]) > 0:
+                data['or_lower'] = float(parts[5])
+            if isfloat(parts[6]) and float(parts[6]) > 0:
+                data['or_upper'] = float(parts[6])
+            if isfloat(parts[7]) and float(parts[7]) > 0:
+                data['raf'] = float(parts[7])
+            if isint(parts[10]) and int(parts[10]) >= 0:
+                data['imputed'] = int(parts[10])
+
             new_docs.append(data)
 
             if count > chunk_size:
@@ -71,3 +77,19 @@ class AssocStats(object):
 
         if len(new_docs) > 0:
             JSONLoader().load(new_docs, idx, idx_type)
+
+
+def isfloat(value):
+    try:
+        float(value)
+        return True
+    except ValueError:
+        return False
+
+
+def isint(value):
+    try:
+        int(value)
+        return True
+    except ValueError:
+        return False
