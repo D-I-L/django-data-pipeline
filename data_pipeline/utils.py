@@ -283,7 +283,8 @@ class PostProcess(object):
         idx_type = kwargs['section']['index_type']
         disease = kwargs['section']['disease']
         study_id = kwargs['section']['study_id']
-        meta = {"disease": disease, "study": study_id}
+        pmid = kwargs['section']['pmid']
+        meta = {"disease": disease, "study": study_id, "pmid": pmid}
         AssocStats.mapping(idx, idx_type, meta)
         with open(download_file, 'rt') as f:
             AssocStats.idx(f, idx, idx_type)
