@@ -53,11 +53,12 @@ class AssocStats(object):
                 "position": int(parts[1]),
                 "marker": parts[2],
                 "p_value": float(parts[3]),
-                "odds_ratio": float(parts[4]),
                 "risk_allele": parts[8],
                 "alt_allele": parts[9]
             }
 
+            if isfloat(parts[4]) and float(parts[4]) > 0:
+                data['odds_ratio'] = float(parts[4])
             if isfloat(parts[5]) and float(parts[5]) > 0:
                 data['or_lower'] = float(parts[5])
             if isfloat(parts[6]) and float(parts[6]) > 0:
