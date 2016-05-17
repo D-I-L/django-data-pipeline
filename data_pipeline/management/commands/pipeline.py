@@ -35,8 +35,8 @@ class Command(BaseCommand):
     Gene Pathways/Genesets:
     ./manage.py pipeline --dir tmp --ini download.ini --sections MSIGDB --steps download stage load
 
-    Update gene suggester weighting:
-    python criteria_suggester.py gene
+    Update marker/gene suggester weighting:
+    python data_pipeline/scripts/criteria_pydgin_suggester.py [gene]
 
 
     Marker:
