@@ -2,7 +2,8 @@
 data_pipeline
 =============
 
-The data pipeline is configured using ini files. 
+The data pipeline is configured using ini files. Note that the ELASTIC settings are taken
+from the pydgin module (i.e. pydgin/settings_secret.py).
 
 Publication Pipeline
 --------------------
@@ -34,3 +35,21 @@ Note a useful terms aggregation for finding the number of documents per disease:
 
     curl 'http://127.0.0.1:9200/publications/_search?size=0&from=0&pretty' \
        -d '{"aggs": {"missing_disease_groups": {"missing": {"field": "disease"}}}}'
+
+
+Data Pipeline
+-------------
+
+Details for running each part of the data pipeline (e.g. gene, marker)
+can be found in the API documentation in data_pipeline/management/commands/pipeline.py.
+
+Tests
+-----
+
+./manage.py test data_pipeline.tests
+
+Data Integrity Tests
+--------------------
+
+./manage.py test data_pipeline.data_integrity
+
