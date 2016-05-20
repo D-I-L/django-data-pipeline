@@ -73,7 +73,7 @@ seq_hits = getattr(resultAggs['build_info'], 'seq_hits')['buckets']
 
 for chr_bucket in seq_hits:
     seqid = chr_bucket['key'].upper()
-    
+
     for disease_bucket in chr_bucket['disease_hits']['diseases_by_seqid']['buckets']:
         # print(disease_bucket)
         disease_code = disease_bucket['key']
@@ -95,7 +95,7 @@ for chr_bucket in seq_hits:
         regionName = ''
         species = ''
         doc_ids = []
-        if len(results.docs) > 0:                        
+        if len(results.docs) > 0:
             for doc in results.docs:
                 # print(doc)
                 os.system("curl -XPOST '"+ElasticSettings.url()+"/"+idx+"/hits/" + doc.doc_id() +
