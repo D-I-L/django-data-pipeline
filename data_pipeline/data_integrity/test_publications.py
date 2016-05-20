@@ -65,8 +65,13 @@ class DiseasePublicationTest(TestCase):
             self.assertEquals(elastic.get_count()['count'], len(pmids), 'Count for '+disease_code)
 
             # check for differences in pmids
-            docs = elastic.search().docs
-            pmids_in_idx = [getattr(doc, 'pmid') for doc in docs]
+            pmids_in_idx = []
+
+            def get_pmids(resp_json):
+                pmids_in_idx.extend([getattr(Document(h), "pmid") for h in resp_json['hits']['hits']])
+
+            ScanAndScroll.scan_and_scroll(idx=ElasticSettings.idx('PUBLICATION'), call_fun=get_pmids,
+                                          query=ElasticQuery(BoolQuery(b_filter=Filter(Query.ids(pmids)))))
             pmids_diff = list(set(pmids) - set(pmids_in_idx))
             self.assertEquals(len(pmids_diff), 0)
 
