@@ -141,17 +141,22 @@ class GenePublicationTest(TestCase):
                 pmid = re.split('\t', x)[2].strip()
                 if pmid not in pmids:
                     seen_add(pmid)
-
-        elastic = Search(search_query=ElasticQuery(BoolQuery(b_filter=Filter(Query.ids(list(pmids)))),
+        pmids = list(pmids)
+        elastic = Search(search_query=ElasticQuery(BoolQuery(b_filter=Filter(Query.ids(pmids))),
                                                    sources=['pmid']),
                          idx=ElasticSettings.idx('PUBLICATION'), size=len(pmids)*2)
         self.assertLess(len(pmids)-elastic.get_count()['count'], GenePublicationTest.NUM_DIFF,
                         'Count for gene publications')
 
         # check for differences in pmids
-        docs = elastic.search().docs
-        pmids_in_idx = [getattr(doc, 'pmid') for doc in docs]
-        pmids_diff = list(pmids - set(pmids_in_idx))
+        pmids_in_idx = []
+
+        def get_pmids(resp_json):
+            pmids_in_idx.extend([getattr(Document(h), "pmid") for h in resp_json['hits']['hits']])
+
+        ScanAndScroll.scan_and_scroll(idx=ElasticSettings.idx('PUBLICATION'), call_fun=get_pmids,
+                                      query=ElasticQuery(BoolQuery(b_filter=Filter(Query.ids(pmids)))))
+        pmids_diff = list(set(pmids) - set(pmids_in_idx))
         self.assertLess(len(pmids_diff), GenePublicationTest.NUM_DIFF)
         os.remove(download_file)
 
