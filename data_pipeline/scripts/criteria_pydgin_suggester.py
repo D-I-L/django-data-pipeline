@@ -28,12 +28,14 @@ if len(sys.argv) > 1:
 
 if gene_index != '':
     criteria_idx = 'pydgin_imb_criteria_gene'
+    criteria_idx_type = ''
     idx_type = 'gene'
     idx = 'genes_hg38_v0.0.2'
     feature_id = 'dbxrefs.ensembl'
     wt = 50
 else:
     criteria_idx = 'pydgin_imb_criteria_marker'
+    criteria_idx_type = 'is_an_index_snp,marker_is_gwas_significant_in_study,rsq_with_index_snp,marker_is_gwas_significant_in_ic'
     idx_type = 'marker'
     idx = 'dbsnp146'
     feature_id = 'id'
@@ -57,7 +59,7 @@ def process_hits(resp_json):
     update_count += len(hits)
     print(str(update_count)+" of "+str(resp_json['hits']['total']))
 
-scan_n_sroll = ScanAndScroll.scan_and_scroll(criteria_idx, call_fun=process_hits)
+scan_n_sroll = ScanAndScroll.scan_and_scroll(criteria_idx, call_fun=process_hits, idx_type=criteria_idx_type)
 
 # Update suggest weights
 update_count = 0
