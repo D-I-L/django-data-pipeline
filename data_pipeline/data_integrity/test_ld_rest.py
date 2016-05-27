@@ -59,6 +59,6 @@ class LDTest(TestCase):
         ''' Get a random marker from the dbSNP elastic index. '''
         (idx, idx_type) = ElasticSettings.idx('MARKER', 'MARKER').split('/')
         seqid = random.randint(1, 10)
-        qbool = BoolQuery(must_arr=[Query.term("seqid", seqid), RangeQuery("tags.weight", gte=80)])
+        qbool = BoolQuery(must_arr=[Query.term("seqid", seqid), RangeQuery("tags.weight", gte=10)])
         doc = ElasticUtils.get_rdm_docs(idx, idx_type, qbool=qbool, sources=['id', 'start'], size=1)[0]
         return getattr(doc, 'id')
